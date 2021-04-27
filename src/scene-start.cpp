@@ -373,7 +373,7 @@ void drawMesh(SceneObject sceneObj) {
     // in the sceneObj structure (see near the top of the program).
 
     mat4 model = Translate(sceneObj.loc) * Scale(sceneObj.scale) *  RotateY(sceneObj.angles[1])  * RotateZ(-sceneObj.angles[2]) * RotateX(sceneObj.angles[0]);
-        
+
 
     // Set the model-view matrix for the shaders
     glUniformMatrix4fv(modelViewU, 1, GL_TRUE, view * model);
