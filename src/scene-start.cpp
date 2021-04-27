@@ -372,7 +372,7 @@ void drawMesh(SceneObject sceneObj) {
     // Set the model matrix - this should combine translation, rotation and scaling based on what's
     // in the sceneObj structure (see near the top of the program).
 
-    mat4 model = Translate(sceneObj.loc) * Scale(sceneObj.scale);
+    mat4 model = Translate(sceneObj.loc) * Scale(sceneObj.scale) *  RotateY(sceneObj.angles[1])  * RotateZ(-sceneObj.angles[2]) * RotateX(sceneObj.angles[0]);
 
 
     // Set the model-view matrix for the shaders
@@ -404,7 +404,7 @@ void display(void) {
     // Set the view matrix. To start with this just moves the camera
     // backwards.  You'll need to add appropriate rotations.
 
-    view = Translate(0.0, 0.0, -viewDist);
+    view = Translate(0.0, 0.0, -viewDist) * RotateX(camRotUpAndOverDeg) * RotateY(camRotSidewaysDeg);
 
     SceneObject lightObj1 = sceneObjs[1];
     vec4 lightPosition = view * lightObj1.loc;

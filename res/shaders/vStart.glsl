@@ -10,6 +10,7 @@ uniform mat4 ModelView;
 uniform mat4 Projection;
 uniform vec4 LightPosition;
 uniform float Shininess;
+uniform float texScale;
 
 void main()
 {
@@ -50,5 +51,5 @@ void main()
     color.a = 1.0;
 
     gl_Position = Projection * ModelView * vpos;
-    texCoord = vTexCoord;
+    texCoord = vTexCoord * texScale;
 }
