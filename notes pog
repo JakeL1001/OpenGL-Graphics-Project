@@ -13,3 +13,6 @@ tex scale? - texture scale
 
 mat4 model = Translate(sceneObj.loc) * Scale(sceneObj.scale) *  RotateY(sceneObj.angles[1])  * RotateZ(-sceneObj.angles[2]) * RotateX(sceneObj.angles[0]);
 working bar last test
+
+
+http://learnwebgl.brown37.net/09_lights/lights_attenuation.html     good for part f!!!
