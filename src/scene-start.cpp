@@ -274,7 +274,7 @@ static void addObject(int id) {
     sceneObjs[nObjects].diffuse = 1.0;
     sceneObjs[nObjects].specular = 1.0;
     sceneObjs[nObjects].ambient = 1.0;
-    sceneObjs[nObjects].shine = 40.0;
+    sceneObjs[nObjects].shine = 60.0;
 
     sceneObjs[nObjects].angles[0] = 0.0;
     sceneObjs[nObjects].angles[1] = 180.0;
@@ -467,6 +467,15 @@ static void adjustBlueBrightness(vec2 bl_br) {
     sceneObjs[toolObj].rgb[2] += bl_br[0];
     sceneObjs[toolObj].brightness += bl_br[1];
 }
+static void adjustAmbientDiffuse(vec2 ad){
+    sceneObjs[toolObj].ambient += ad[0] * 1;
+    sceneObjs[toolObj].diffuse += ad[1] * 1;
+}
+static void adjustSpecularShine(vec2 sp_sh){
+    sceneObjs[toolObj].specular += sp_sh[0] * 1;
+    sceneObjs[toolObj].shine += sp_sh[1] * 50; //TODO maybe tinker with these
+}
+
 
 static void lightMenu(int id) {
     deactivateTool();
@@ -514,7 +523,12 @@ static void materialMenu(int id) {
         setToolCallbacks(adjustRedGreen, mat2(1, 0, 0, 1),
                          adjustBlueBrightness, mat2(1, 0, 0, 1));
     }
-        // You'll need to fill in the remaining menu items here.
+    if (id == 20){
+        toolObj = currObject;
+        setToolCallbacks(adjustAmbientDiffuse, mat2(1, 0, 0, 1),
+                         adjustSpecularShine, mat2(1, 0, 0, 1));
+
+    }   // You'll need to fill in the remaining menu items here.
     else {
         printf("Error in materialMenu\n");
     }
