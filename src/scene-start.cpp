@@ -272,9 +272,9 @@ static void addObject(int id) {
     sceneObjs[nObjects].brightness = 1.0;
 
     sceneObjs[nObjects].diffuse = 1.0;
-    sceneObjs[nObjects].specular = 0.5;
-    sceneObjs[nObjects].ambient = 0.7;
-    sceneObjs[nObjects].shine = 10.0;
+    sceneObjs[nObjects].specular = 1.0;
+    sceneObjs[nObjects].ambient = 1.0;
+    sceneObjs[nObjects].shine = 40.0;
 
     sceneObjs[nObjects].angles[0] = 0.0;
     sceneObjs[nObjects].angles[1] = 180.0;
@@ -372,7 +372,7 @@ void drawMesh(SceneObject sceneObj) {
     // Set the model matrix - this should combine translation, rotation and scaling based on what's
     // in the sceneObj structure (see near the top of the program).
 
-    mat4 model = Translate(sceneObj.loc) * Scale(sceneObj.scale) *  RotateY(sceneObj.angles[1])  * RotateZ(-sceneObj.angles[2]) * RotateX(sceneObj.angles[0]);
+    mat4 model = Translate(sceneObj.loc) * Scale(sceneObj.scale) *  RotateZ(sceneObj.angles[2])  * RotateY(sceneObj.angles[1])  * RotateX(sceneObj.angles[0]);
 
 
     // Set the model-view matrix for the shaders
