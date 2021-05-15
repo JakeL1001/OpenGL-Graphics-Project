@@ -473,7 +473,7 @@ static void adjustAmbientDiffuse(vec2 ad){
 }
 static void adjustSpecularShine(vec2 sp_sh){
     sceneObjs[toolObj].specular += sp_sh[0] * 1;
-    sceneObjs[toolObj].shine += sp_sh[1] * 50; //TODO maybe tinker with these
+    sceneObjs[toolObj].shine += sp_sh[1] * 1; //TODO maybe tinker with these
 }
 
 
