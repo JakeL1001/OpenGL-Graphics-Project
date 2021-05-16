@@ -1,10 +1,11 @@
 varying vec4 color;
 varying vec2 texCoord;  // The third coordinate is always 0.0 and is discarded
-varying vec3 Nvec, Evec, Lvec, Lvec2;
+varying vec3 Nvec, Evec, Lvec;
 
 uniform sampler2D texture;
+uniform float texScale;
 
-uniform vec3 AmbientProduct, DiffuseProduct, SpecularProduct, AmbientProduct2, DiffuseProduct2, SpecularProduct2;
+uniform vec3 AmbientProduct, DiffuseProduct, SpecularProduct;
 uniform mat4 ModelView;
 uniform float Shininess;
 
@@ -29,24 +30,10 @@ void main()
 	if (dot(L, N) < 0.0 ) {
 	    specular = vec3(0.0, 0.0, 0.0);
     } 
-    
-    vec3 L2 = normalize(Lvec2);
-    vec3 H2 = normalize(L+E);
-	vec3 ambient2 = AmbientProduct2;
-
-	float Kd2 = max(dot(L2,N),0.0);
-	vec3 diffuse2 = (Kd2 * DiffuseProduct2);
-
-	float Ks2 = pow(max(dot(N,H2),0.0), Shininess);
-	vec3 specular2 = (Ks2 * SpecularProduct2);
-
-	if (dot(L2, N) < 0.0 ) {
-	    specular2 = vec3(0.0, 0.0, 0.0);
-    } 
 
 	vec3 globalAmbient = vec3(0.1, 0.1, 0.1);
 	
-    vec4 color2 = atten  * vec4(globalAmbient + ambient + diffuse + ambient2 + specular2, 1.0);
+    vec4 color2 = atten  * vec4(globalAmbient + ambient + diffuse, 1.0);
 
-    gl_FragColor = color2 * texture2D( texture, texCoord * 2.0 ) + vec4(specular + specular2, 1.0);
+    gl_FragColor = color2 * texture2D( texture, texCoord * texScale) + vec4(specular, 1.0);
 }
