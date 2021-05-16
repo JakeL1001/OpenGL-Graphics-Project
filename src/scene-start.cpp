@@ -272,9 +272,9 @@ static void addObject(int id) {
     sceneObjs[nObjects].brightness = 1.0;
 
     sceneObjs[nObjects].diffuse = 1.0;
-    sceneObjs[nObjects].specular = 1.0;
-    sceneObjs[nObjects].ambient = 1.0;
-    sceneObjs[nObjects].shine = 60.0;
+    sceneObjs[nObjects].specular = 0.5;
+    sceneObjs[nObjects].ambient = 0.7;
+    sceneObjs[nObjects].shine = 10.0;
 
     sceneObjs[nObjects].angles[0] = 0.0;
     sceneObjs[nObjects].angles[1] = 180.0;
@@ -339,6 +339,11 @@ void init(void) {
     sceneObjs[1].scale = 0.1;
     sceneObjs[1].texId = 0; // Plain texture
     sceneObjs[1].brightness = 0.2; // The light's brightness is 5 times this (below).
+
+    sceneObjs[2].loc = vec4(3.0, 1.0, 1.0, 0.0);	
+    sceneObjs[2].scale = 0.1;	
+    sceneObjs[2].texId = 1; //diff texture to identify as second light	
+    sceneObjs[2].brightness = 0.1;
 
     addObject(rand() % numMeshes); // A test mesh
 
@@ -410,6 +415,9 @@ void display(void) {
     SceneObject lightObj1 = sceneObjs[1];
     vec4 lightPosition = view * lightObj1.loc;
 
+    SceneObject lightObj2 = sceneObjs[2];	
+    vec4 lightPosition2 = view * lightObj2.loc;
+
     glUniform4fv(glGetUniformLocation(shaderProgram, "LightPosition"),
                  1, lightPosition);
     CheckError();
@@ -422,6 +430,13 @@ void display(void) {
         CheckError();
         glUniform3fv(glGetUniformLocation(shaderProgram, "DiffuseProduct"), 1, so.diffuse * rgb);
         glUniform3fv(glGetUniformLocation(shaderProgram, "SpecularProduct"), 1, so.specular * rgb);
+
+        vec3 color2 = so.rgb * lightObj2.rgb * so.brightness * lightObj2.brightness * 2.0;
+        glUniform3fv(glGetUniformLocation(shaderProgram, "AmbientProduct2"), 1, so.ambient * color2);
+        CheckError();
+        glUniform3fv(glGetUniformLocation(shaderProgram, "DiffuseProduct2"), 1, so.diffuse * color2);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "SpecularProduct2"), 1, so.specular * color2);
+
         glUniform1f(glGetUniformLocation(shaderProgram, "Shininess"), so.shine);
         CheckError();
 
@@ -474,7 +489,7 @@ static void adjustAmbientDiffuse(vec2 ad){
 }
 static void adjustSpecularShine(vec2 sp_sh){
     sceneObjs[toolObj].specular += sp_sh[0] * 1;
-    sceneObjs[toolObj].shine += sp_sh[1] * 1; //TODO maybe tinker with these
+    sceneObjs[toolObj].shine += sp_sh[1] * 40; //TODO maybe tinker with these
 }
 
 
@@ -566,7 +581,7 @@ static void makeMenu() {
 
     int materialMenuId = glutCreateMenu(materialMenu);
     glutAddMenuEntry("R/G/B/All", 10);
-    glutAddMenuEntry("UNIMPLEMENTED: Ambient/Diffuse/Specular/Shine", 20);
+    glutAddMenuEntry("Ambient/Diffuse/Specular/Shine", 20);
 
     int texMenuId = createArrayMenu(numTextures, textureMenuEntries, texMenu);
     int groundMenuId = createArrayMenu(numTextures, textureMenuEntries, groundMenu);
