@@ -340,6 +340,7 @@ void init(void) {
     sceneObjs[1].texId = 0; // Plain texture
     sceneObjs[1].brightness = 0.2; // The light's brightness is 5 times this (below).
 
+    addObject(55);
     sceneObjs[2].loc = vec4(3.0, 1.0, 1.0, 0.0);	
     sceneObjs[2].scale = 0.1;	
     sceneObjs[2].texId = 1; //diff texture to identify as second light	
@@ -501,6 +502,14 @@ static void lightMenu(int id) {
                          adjustBrightnessY, mat2(1.0, 0.0, 0.0, 10.0));
     } else if (id >= 71 && id <= 74) {
         toolObj = 1;
+        setToolCallbacks(adjustRedGreen, mat2(1.0, 0, 0, 1.0),
+                         adjustBlueBrightness, mat2(1.0, 0, 0, 1.0));
+    } else if (id == 80){
+        toolObj = 2;
+        setToolCallbacks(adjustLocXZ, camRotZ(),
+                         adjustBrightnessY, mat2(1.0, 0.0, 0.0, 10.0)); //Not working :(
+    } else if (id == 81) {
+        toolObj = 2;
         setToolCallbacks(adjustRedGreen, mat2(1.0, 0, 0, 1.0),
                          adjustBlueBrightness, mat2(1.0, 0, 0, 1.0));
     } else {
@@ -666,7 +675,7 @@ void reshape(int width, int height) {
     //         that the same part of the scene is visible across the width of
     //         the window.
 
-    GLfloat nearDist = 0.002; //changed from 0.2 to 0.002, allows to get 100x closer before clipping
+    GLfloat nearDist = 0.001; //changed from 0.2 to 0.001, allows to get 200x closer before clipping
     if(height <= width){
         projection = Frustum(-nearDist * (float) width / (float) height,
                          nearDist * (float) width / (float) height,

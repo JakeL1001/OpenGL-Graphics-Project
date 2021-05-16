@@ -16,13 +16,13 @@ void main()
 {
 
     vec4 vpos = vec4(vPosition, 1.0);
-    vec4 vnormal = vec4(vNormal, 0.0);
+    vec4 vnorm = vec4(vNormal, 0.0);
 
     // Transform vertex position into eye coordinates
     vec3 pos = (ModelView * vpos).xyz;
     vec3 eyepos = (ModelView * vec4(vNormal, 0.0)).xyz;
 
-    Nvec = (ModelView * vnormal).xyz;
+    Nvec = (ModelView * vnorm).xyz;
     Evec = -pos;   
     Lvec = LightPosition.xyz - pos;
     Lvec2 = LightPosition2.xyz - eyepos;

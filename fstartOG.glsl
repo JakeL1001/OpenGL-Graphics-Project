@@ -12,12 +12,5 @@ uniform vec3 pos;
 
 void main()
 {
-    //vec3 lightDir   = normalize(lightPosition - pos);
-    //vec3 viewDir    = normalize(ModelView - pos);
-    //vec3 halfwayDir = normalize(lightDir + viewDir);
-
-    //float spec = pow(max(dot(normal, halfwayDir), 32.0), shininess);
-    //vec3 specular = lightColor * spec;
-
     gl_FragColor = color * texture2D( texture, texCoord * 2.0 );
 }
