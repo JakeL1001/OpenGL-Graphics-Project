@@ -533,7 +533,7 @@ static void materialMenu(int id) {
         setToolCallbacks(adjustRedGreen, mat2(1, 0, 0, 1),
                          adjustBlueBrightness, mat2(1, 0, 0, 1));
     }
-    if (id == 20){
+    else if (id == 20){
         toolObj = currObject;
         setToolCallbacks(adjustAmbientDiffuse, mat2(1, 0, 0, 1),
                          adjustSpecularShine, mat2(1, 0, 0, 1));
