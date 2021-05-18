@@ -340,6 +340,12 @@ void init(void) {
     sceneObjs[1].texId = 0; // Plain texture
     sceneObjs[1].brightness = 0.2; // The light's brightness is 5 times this (below).
 
+    addObject(55);
+    sceneObjs[2].loc = vec4(3.0, 1.0, 1.0, 0.0);	
+    sceneObjs[2].scale = 0.1;	
+    sceneObjs[2].texId = 1; //diff texture to identify as second light	
+    sceneObjs[2].brightness = 0.1;
+
     addObject(rand() % numMeshes); // A test mesh
 
     // We need to enable the depth test to discard fragments that
@@ -410,6 +416,9 @@ void display(void) {
     SceneObject lightObj1 = sceneObjs[1];
     vec4 lightPosition = view * lightObj1.loc;
 
+    SceneObject lightObj2 = sceneObjs[2];	
+    vec4 lightPosition2 = view * lightObj2.loc;
+
     glUniform4fv(glGetUniformLocation(shaderProgram, "LightPosition"),
                  1, lightPosition);
     CheckError();
@@ -424,6 +433,13 @@ void display(void) {
         glUniform3fv(glGetUniformLocation(shaderProgram, "SpecularProduct"), 1, so.specular * rgb);
 
         glUniform1f(glGetUniformLocation(shaderProgram, "Shininess"), so.shine);
+
+        vec3 color2 = so.rgb * lightObj2.rgb * so.brightness * lightObj2.brightness * 2.0;
+        glUniform3fv(glGetUniformLocation(shaderProgram, "AmbientProduct2"), 1, so.ambient * color2);
+        CheckError();
+        glUniform3fv(glGetUniformLocation(shaderProgram, "DiffuseProduct2"), 1, so.diffuse * color2);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "SpecularProduct2"), 1, so.specular * color2);
+
         CheckError();
 
         drawMesh(sceneObjs[i]);
